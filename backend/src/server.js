@@ -4,6 +4,7 @@ import path from 'path';
 
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
+import connectDB from './lib/db.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const __dirname = path.resolve(); // Get the current directory path
 
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json()); // Middleware to parse JSON bodies
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 
@@ -26,4 +28,5 @@ if (process.env.NODE_ENV === 'production'){
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  connectDB();
 });
