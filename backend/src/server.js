@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
-import cokkkieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
@@ -13,7 +14,8 @@ const __dirname = path.resolve(); // Get the current directory path
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json()); // Middleware to parse JSON bodies
-app.use(cokkkieParser()); // Middleware to parse cookies
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // Enable CORS for the frontend URL
+app.use(cookieParser()); // Middleware to parse cookies
 
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
