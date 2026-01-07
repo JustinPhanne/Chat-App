@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 // Get all contacts excluding the logged-in user
 export const getAllContacts = async (req, res) => {
@@ -66,6 +67,11 @@ export const sendMessage = async (req, res) => {
       // upload base64 image to cloudinary
       const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
+    }
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
     }
 
     // create and save the new message
