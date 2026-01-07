@@ -13,7 +13,7 @@ const __dirname = path.resolve(); // Get the current directory path
 
 const PORT = ENV.PORT || 3000;
 
-app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.json({limit : "5mb"})); // Middleware to parse JSON bodies
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // Enable CORS for the frontend URL
 app.use(cookieParser()); // Middleware to parse cookies
 
